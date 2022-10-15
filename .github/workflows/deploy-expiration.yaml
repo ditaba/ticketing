@@ -1,0 +1,32 @@
+name: deploy-expiration
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'expiration/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - run: cd expiration && docker build -t 270319883748/expiration .
+      - run: docker push 270319883748/expiration
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+      - id: 'get-credentials'
+        uses: 'google-github-actions/get-gke-credentials@v0'
+        with:
+          cluster_name: 'ticketing-dev'
+          location: 'us-central1-c'
+      - run: kubectl rollout restart deployment expiration-depl
