@@ -26,5 +26,11 @@ jobs:
         uses: 'google-github-actions/setup-gcloud@v0'
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
-      - run: gcloud container clusters get-credentials ticketing-dev
+      - id: 'get-credentials'
+        uses: 'google-github-actions/get-gke-credentials@v0'
+        with:
+          cluster_name: 'ticketing-dev'
+          location: 'us-central1-c'
+      - id: 'get-pods'
+        run: 'kubectl get pods'
       - run: kubectl rollout restart deployment auth-depl
