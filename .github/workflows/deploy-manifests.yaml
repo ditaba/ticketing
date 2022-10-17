@@ -5,22 +5,22 @@ on:
     branches:
       - master
     paths:
-      - 'infra/**'
+      - "infra/**"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v0'
+      - id: "auth"
+        uses: "google-github-actions/auth@v0"
         with:
-          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
-      - id: 'get-credentials'
-        uses: 'google-github-actions/get-gke-credentials@v0'
+          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+      - id: "get-credentials"
+        uses: "google-github-actions/get-gke-credentials@v0"
         with:
-          cluster_name: 'ticketing-dev'
-          location: 'us-central1-c'
-      - id: 'get-pods'
-        run: 'kubectl get pods'
+          cluster_name: "ticketing-dev"
+          location: "us-central1"
+      - id: "get-pods"
+        run: "kubectl get pods"
       - run: kubectl apply -f infra/k8s && kubectl apply -f infra/k8s-prod

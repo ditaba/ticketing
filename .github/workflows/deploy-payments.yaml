@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - 'payments/**'
+      - "payments/**"
 
 jobs:
   build:
@@ -18,15 +18,15 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - run: cd payments && docker build -t 270319883748/payments .
       - run: docker push 270319883748/payments
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v0'
+      - id: "auth"
+        uses: "google-github-actions/auth@v0"
         with:
-          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v0'
-      - id: 'get-credentials'
-        uses: 'google-github-actions/get-gke-credentials@v0'
+          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v0"
+      - id: "get-credentials"
+        uses: "google-github-actions/get-gke-credentials@v0"
         with:
-          cluster_name: 'ticketing-dev'
-          location: 'us-central1-c'
+          cluster_name: "ticketing-dev"
+          location: "us-central1"
       - run: kubectl rollout restart deployment payments-depl

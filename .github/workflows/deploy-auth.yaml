@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - 'auth/**'
+      - "auth/**"
 
 jobs:
   build:
@@ -18,19 +18,19 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - run: cd auth && docker build -t 270319883748/auth .
       - run: docker push 270319883748/auth
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v0'
+      - id: "auth"
+        uses: "google-github-actions/auth@v0"
         with:
-          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v0'
-      - name: 'Use gcloud CLI'
-        run: 'gcloud info'
-      - id: 'get-credentials'
-        uses: 'google-github-actions/get-gke-credentials@v0'
+          credentials_json: "${{ secrets.GCP_CREDENTIALS }}"
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v0"
+      - name: "Use gcloud CLI"
+        run: "gcloud info"
+      - id: "get-credentials"
+        uses: "google-github-actions/get-gke-credentials@v0"
         with:
-          cluster_name: 'ticketing-dev'
-          location: 'us-central1-c'
-      - id: 'get-pods'
-        run: 'kubectl get pods'
+          cluster_name: "ticketing-dev"
+          location: "us-central1"
+      - id: "get-pods"
+        run: "kubectl get pods"
       - run: kubectl rollout restart deployment auth-depl
