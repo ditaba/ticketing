@@ -28,5 +28,5 @@ jobs:
         uses: "google-github-actions/get-gke-credentials@v0"
         with:
           cluster_name: "ticketing-dev"
-          location: "us-central1"
+          location: "us-east1-b"
       - run: kubectl rollout restart deployment payments-depl
