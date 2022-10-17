@@ -6,7 +6,8 @@ const buildClient = ({ req }) => {
 
     return axios.create({
       baseURL:
-        "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local",
+        // "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local", // For not using domain name
+        "http://www.tbd-ticketing-app-prod.xyz",
       headers: req.headers,
     });
   } else {
